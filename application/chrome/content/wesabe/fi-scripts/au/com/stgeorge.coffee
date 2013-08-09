@@ -3,7 +3,7 @@
 # are called "players".
 wesabe.download.Player.register
   fid: 'au.com.stgeorge'
-  org: 'St George Bank'
+  org: 'StGeorge Bank'
 
   # change to on if frames have meaningful content,
   # and that "dispatch" should be run for the document
@@ -22,7 +22,7 @@ wesabe.download.Player.register
     # a page load, which calls "dispatch" (see login.js).
     main: (browser) ->
       # TODO: change the url to go to the login page for St George Bank
-      browser.go "https://ibanking.stgeorge.com.au/"
+      browser.go "https://ibanking.stgeorge.com.au/ibank/loginPage.action"
 
   # the "includes" array allows you to build this Player from
   # multiple files, splitting it up by functionally discrete parts
