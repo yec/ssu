@@ -1,3 +1,5 @@
 build
 credentials
 pid*
+.idea
+*DS_Store
