@@ -9,15 +9,64 @@ wesabe.provide "fi-scripts.au.com.stgeorge.accounts",
   # load occurs (using the ondomready callback, not onload).
   # For more information, see login.coffee in the same folder.
   dispatch: (browser, page) ->
-    # replace with your own custom logic for determining login status
-    return unless page.present @e.logoff.link
 
-    # TODO: fill out logic for finding and downloading accounts
+    if page.present @e.accounts.page.index.indicator
+
+      if !@tmp.accounts
+        @collectAccounts browser, page
+
+      if !@tmp.accounts.length
+        @logoff();
+
+      if !@tmp.account
+        @tmp.account = @tmp.accounts.shift()
+
+      if @tmp.account
+        @goToAccountPage browser
+
+    if page.present @e.accounts.page.details.indicator
+
+      if page.present @e.transHistExport
+        @download page
 
   actions:
-    # TODO: fill this out (see login.coffee for more info)
-    sample: ->
+    download: (page) ->
+      page.click @e.transHistExport
+
+    collectAccounts: (browser, page) ->
+      @tmp.accounts = [
+        accountNumber: 2
+      ]
+
+    goToAccountPage: (browser) ->
+      browser.go 'https://ibanking.stgeorge.com.au/ibank/accountDetails.action?index=' + @tmp.account.accountNumber
+
+    goMyAccountsPage: ->
+      job.update "account"
+      browser.go 'https://ibanking.stgeorge.com.au/ibank/viewAccountPortfolio.action'
 
   elements:
-    # TODO: fill this out (see login.coffee for more info)
-    accounts: {}
+    accounts:
+      page:
+        index:
+          indicator: [
+            '//h1[contains(string(.), "My Accounts")]'
+          ]
+
+        details:
+          indicator: [
+            '//h1[contains(string(.), "Account Details")]'
+          ]
+
+      list:
+        item:
+          container: [
+          ]
+
+    downloadLink: [
+      '//a[contains(@href, "Export")][contains(string(.), "Export")]'
+    ]
+
+    transHistExport: [
+      '//a[@name="transHistExport"]'
+    ]

@@ -157,7 +157,7 @@ wesabe.provide "fi-scripts.au.com.stgeorge.login",
     logoff:
       link: [
         # for example
-        '//a[contains(string(.), "Logoff") or contains(string(.), "Logout")][contains(@href, "Logff")]'
+        '//span[contains(string(.), "Logout")]'
       ]
 
     # For most security questions there are text nodes containing
